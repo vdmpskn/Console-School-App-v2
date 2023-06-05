@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.model;
 
 public record Student(
         Long student_id,
