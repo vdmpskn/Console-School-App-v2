@@ -1,5 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/schooldb
-    username: admin
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
     password: 1111
+  flyway:
+    locations: classpath:db.migration
+    scripts-encoding: UTF-8
+    placeholder-replacement: true
+    placeholders:
+      placeholder-prefix: #
+        placeholder-suffix: #
