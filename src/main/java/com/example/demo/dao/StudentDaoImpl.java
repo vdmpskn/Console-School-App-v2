@@ -16,7 +16,7 @@ public class StudentDaoImpl implements StudentDao {
               VALUES (?, ?, ?, ?)
               RETURNING id, group_id, first_name, last_name
             )
-            SELECT id, group_id, first_name, last_name FROM ROWS;
+            SELECT id, group_id, first_name, last_name FROM ROWS
             
                                                    """;
 
@@ -29,9 +29,10 @@ public class StudentDaoImpl implements StudentDao {
             """;
 
     private static final String DELETE_BY_ID_QUERY = """
-            DELETE FROM student_courses WHERE student_id = " + student_id + ;
-            DELETE FROM students WHERE id = 
+            DELETE FROM student_courses WHERE student_id = ?;
+            DELETE FROM students WHERE id = ?;
              """;
+
 
     private static final String FIND_BY_COURSE_NAME_QUERY = "SELECT s.id, s.first_name, s.last_name, s.group_id " +
             "FROM students s " +
@@ -77,8 +78,9 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public void deleteById(Long student_id) {
-        jdbcTemplate.execute(DELETE_BY_ID_QUERY + student_id + ";");
+        jdbcTemplate.update(DELETE_BY_ID_QUERY, student_id, student_id);
     }
+
     @Override
     public List<Student> findStudentsByCourseName(String courseName) {
 

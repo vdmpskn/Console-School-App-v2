@@ -28,7 +28,7 @@ public class ConsoleMenu {
         while (choice != 7) {
             displayMenu();
             choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -91,13 +91,13 @@ public class ConsoleMenu {
     }
 
     private void addNewStudent() {
-        System.out.println("Write student id: ");
+        System.out.print("Write student id: ");
         long studentId = scanner.nextLong();
-        System.out.println("Write group id: ");
+        System.out.print("Write group id: ");
         long groupId = scanner.nextLong();
-        System.out.println("Write student's name: ");
+        System.out.print("Write student's name: ");
         String studentName = scanner.nextLine();
-        System.out.println("Write student's last name: ");
+        System.out.print("Write student's last name: ");
         String studentLastName = scanner.nextLine();
         studentService.save(new Student(studentId,groupId,studentName,studentLastName ));
         System.out.println("Student added!!");

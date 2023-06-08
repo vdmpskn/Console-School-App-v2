@@ -31,12 +31,11 @@ public class DemoApplication implements CommandLineRunner {
     private CourseService courseService;
 
 
-    @Override
-    public void run(String... args) throws Exception {
 
+    @Override
+    public void run(String... args)  {
         ConsoleMenu consoleMenu = new ConsoleMenu(groupService, studentService, courseService);
         consoleMenu.start();
-
 
     }
 }
