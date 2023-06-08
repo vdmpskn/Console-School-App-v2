@@ -13,7 +13,6 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentDao studentDao;
 
-    @Autowired
     public StudentServiceImpl(StudentDao studentDao) {
         this.studentDao = studentDao;
     }

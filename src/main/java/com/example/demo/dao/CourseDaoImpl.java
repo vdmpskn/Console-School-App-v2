@@ -13,7 +13,6 @@ public class CourseDaoImpl implements CourseDao{
 
    private final String removeStudentFromCourseQuerry = "DELETE FROM student_courses WHERE student_id = ? AND course_id = ?";
 
-   @Autowired
    public CourseDaoImpl(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate;}
 
     @Override

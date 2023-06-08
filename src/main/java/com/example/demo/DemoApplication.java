@@ -37,23 +37,6 @@ public class DemoApplication implements CommandLineRunner {
         ConsoleMenu consoleMenu = new ConsoleMenu(groupService, studentService, courseService);
         consoleMenu.start();
 
-//        List<Student> students = studentService.findStudentsByCourseName("History");
-//
-//        for(Student student: students){
-//            System.out.println(student);
-//        }
-//
-//        courseService.addStudentToCourse(50,2);
-//
-//        System.out.println("---------------------------");
-//        List<Group> groups = groupService.findGroupsWithMaxStudents(4);
-//        for (Group group : groups) {
-//            System.out.println(group);
-//        }
-//
-//        courseService.removeStudentFromCourse(50,3);
-
-
 
     }
 }

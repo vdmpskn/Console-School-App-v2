@@ -1,10 +1,8 @@
 package com.example.demo.dao;
 
-import com.example.demo.dao.StudentDao;
+
 import com.example.demo.model.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,6 +30,7 @@ public class StudentDaoImpl implements StudentDao {
             """;
 
     private static final String DELETE_BY_ID_QUERY = """
+            DELETE FROM student_courses WHERE student_id = " + student_id + ;
             DELETE FROM students WHERE id = 
              """;
 
@@ -43,7 +42,6 @@ public class StudentDaoImpl implements StudentDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public StudentDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -80,9 +78,7 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public void deleteById(Long student_id) {
-        jdbcTemplate.execute("DELETE FROM student_courses WHERE student_id = " + student_id + ";");
         jdbcTemplate.execute(DELETE_BY_ID_QUERY + student_id + ";");
-
     }
     @Override
     public List<Student> findStudentsByCourseName(String courseName) {

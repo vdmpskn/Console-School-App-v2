@@ -19,7 +19,6 @@ public class GroupDaoImpl implements GroupDao {
                 GROUP BY g.id, g.group_name  
                 HAVING COUNT(s.id) <= ?; """;
 
-    @Autowired
     public GroupDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -30,9 +29,7 @@ public class GroupDaoImpl implements GroupDao {
         return jdbcTemplate.query(FIND_GROUP_WITH_MAX_STUDENT, new Object[]{maxStudents}, (rs, rowNum) -> {
             long groupId = rs.getLong("id");
             String groupName = rs.getString("group_name");
-            Group group = new Group(groupId, groupName);
-
-            return group;
+            return new Group(groupId, groupName);
         });
     }
 }

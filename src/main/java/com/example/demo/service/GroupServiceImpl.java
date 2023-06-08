@@ -12,7 +12,7 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupDao groupDao;
 
-    @Autowired
+
     public GroupServiceImpl(GroupDao groupDao) { this.groupDao = groupDao; }
 
     @Override
