@@ -20,7 +20,6 @@ public class StudentDaoImpl implements StudentDao {
             
                                                    """;
 
-
     private static final String FIND_ALL_QUERY = """
             SELECT id, group_id, first_name, last_name FROM students;
             """;
