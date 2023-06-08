@@ -10,6 +10,8 @@ public interface StudentDao {
 
     List<Student> findAll();
 
+    List<Student> findStudentsByCourseName(String courseName);
+
     Student findById(Long student_id);
 
     void deleteById(Long student_id);

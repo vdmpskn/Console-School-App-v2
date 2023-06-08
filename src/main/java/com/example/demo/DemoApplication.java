@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.front.ConsoleMenu;
 import com.example.demo.model.Group;
+import com.example.demo.model.Student;
+import com.example.demo.service.CourseService;
 import com.example.demo.service.GroupService;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +27,33 @@ public class DemoApplication implements CommandLineRunner {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    private CourseService courseService;
+
+
     @Override
     public void run(String... args) throws Exception {
 
-        List<Group> groups = groupService.findGroupsWithMaxStudents(4);
-        for (Group group : groups) {
-            System.out.println(group);
-        }
+        ConsoleMenu consoleMenu = new ConsoleMenu(groupService, studentService, courseService);
+        consoleMenu.start();
+
+//        List<Student> students = studentService.findStudentsByCourseName("History");
+//
+//        for(Student student: students){
+//            System.out.println(student);
+//        }
+//
+//        courseService.addStudentToCourse(50,2);
+//
+//        System.out.println("---------------------------");
+//        List<Group> groups = groupService.findGroupsWithMaxStudents(4);
+//        for (Group group : groups) {
+//            System.out.println(group);
+//        }
+//
+//        courseService.removeStudentFromCourse(50,3);
+
+
 
     }
 }

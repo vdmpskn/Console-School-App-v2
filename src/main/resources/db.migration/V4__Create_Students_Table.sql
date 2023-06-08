@@ -67,12 +67,14 @@ WHERE students.id = subquery.student_id;
 
 
 INSERT INTO student_courses (student_id, course_id)
-SELECT students.id, subquery.course_id
-FROM students
-         CROSS JOIN (SELECT course_id
-                     FROM courses
-                     ORDER BY random() LIMIT 3) AS subquery;
-
+SELECT student_id, course_id
+FROM (
+         SELECT students.id AS student_id, courses.course_id,
+                ROW_NUMBER() OVER (PARTITION BY students.id ORDER BY random()) AS row_num
+         FROM students, courses
+         ORDER BY random()
+     ) AS subquery
+WHERE subquery.row_num <= 3;
 
 
 

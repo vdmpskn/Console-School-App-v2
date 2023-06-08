@@ -30,11 +30,7 @@ public class GroupDaoImpl implements GroupDao {
         return jdbcTemplate.query(FIND_GROUP_WITH_MAX_STUDENT, new Object[]{maxStudents}, (rs, rowNum) -> {
             long groupId = rs.getLong("id");
             String groupName = rs.getString("group_name");
-            // You can retrieve other columns from the result set as needed
-
-            // Initialize the Group object with the retrieved values
             Group group = new Group(groupId, groupName);
-            // Set other properties of the Group object as needed
 
             return group;
         });
