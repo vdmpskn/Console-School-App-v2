@@ -14,11 +14,19 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void addStudentToCourse(long studentId, long courseId) {
-        courseDao.addStudentToCourse(studentId, courseId);
+        try{
+            courseDao.addStudentToCourse(studentId, courseId);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void removeStudentFromCourse(long studentId, long courseId) {
-        courseDao.removeStudentFromCourse(studentId, courseId);
+       try{
+           courseDao.removeStudentFromCourse(studentId, courseId);
+       } catch (Exception e){
+           e.printStackTrace();
+       }
     }
 }

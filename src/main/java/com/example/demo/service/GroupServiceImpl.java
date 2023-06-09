@@ -15,6 +15,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Group> findGroupsWithMaxStudents(int maxStudents) {
-        return groupDao.findGroupsWithMaxStudents(maxStudents);
+        try{
+            return groupDao.findGroupsWithMaxStudents(maxStudents);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

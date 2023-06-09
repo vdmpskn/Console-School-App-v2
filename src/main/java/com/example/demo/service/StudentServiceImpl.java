@@ -20,26 +20,50 @@ public class StudentServiceImpl implements StudentService {
         if (student == null) {
             throw new IllegalArgumentException("Student cannot be null!");
         }
-        return studentDao.save(student);
+        try {
+            return studentDao.save(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public List<Student> findAll() {
-        return studentDao.findAll();
+        try {
+            return studentDao.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public List<Student> findStudentsByCourseName(String courseName) {
-        return studentDao.findStudentsByCourseName(courseName);
+        try {
+            return studentDao.findStudentsByCourseName(courseName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Student findById(Long student_id) {
-        return studentDao.findById(student_id);
+        try {
+            return studentDao.findById(student_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void deleteById(Long student_id) {
-        studentDao.deleteById(student_id);
+        try{
+            studentDao.deleteById(student_id);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

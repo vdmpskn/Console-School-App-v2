@@ -6,14 +6,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
+@Testcontainers
 public class StudentServiceImplTest {
+
+    @Container
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")
+            .withDatabaseName("test")
+            .withUsername("postgres")
+            .withPassword("1111");
 
     @Mock
     private StudentDao studentDao;
@@ -23,12 +36,19 @@ public class StudentServiceImplTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(postgresContainer.getJdbcUrl());
+        dataSource.setUsername(postgresContainer.getUsername());
+        dataSource.setPassword(postgresContainer.getPassword());
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         studentService = new StudentServiceImpl(studentDao);
     }
 
     @Test
     public void testSaveStudent() {
-
         Student student = new Student(1L, 1L, "John", "Doe");
 
         when(studentDao.save(student)).thenReturn(student);
@@ -36,10 +56,7 @@ public class StudentServiceImplTest {
         Student savedStudent = studentService.save(student);
 
         assertNotNull(savedStudent);
-        assertEquals(student.student_id(), savedStudent.student_id());
-        assertEquals(student.group_id(), savedStudent.group_id());
-        assertEquals(student.first_name(), savedStudent.first_name());
-        assertEquals(student.last_name(), savedStudent.last_name());
+        assertEquals(student, savedStudent);
 
         verify(studentDao, times(1)).save(student);
     }
@@ -63,7 +80,6 @@ public class StudentServiceImplTest {
 
     @Test
     public void testFindStudentsByCourseName() {
-
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(new Student(1L, 1L, "John", "Doe"));
         expectedStudents.add(new Student(2L, 1L, "Jane", "Smith"));
@@ -91,10 +107,7 @@ public class StudentServiceImplTest {
         Student actualStudent = studentService.findById(studentId);
 
         assertNotNull(actualStudent);
-        assertEquals(expectedStudent.student_id(), actualStudent.student_id());
-        assertEquals(expectedStudent.group_id(), actualStudent.group_id());
-        assertEquals(expectedStudent.first_name(), actualStudent.first_name());
-        assertEquals(expectedStudent.last_name(), actualStudent.last_name());
+        assertEquals(expectedStudent, actualStudent);
 
         verify(studentDao, times(1)).findById(studentId);
     }

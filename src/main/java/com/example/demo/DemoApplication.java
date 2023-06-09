@@ -1,8 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.front.ConsoleMenu;
-import com.example.demo.model.Group;
-import com.example.demo.model.Student;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.GroupService;
 import com.example.demo.service.StudentService;
@@ -11,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
+
 
 
 @SpringBootApplication
