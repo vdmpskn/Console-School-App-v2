@@ -1,63 +1,70 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.CourseDao;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
-@Testcontainers
-public class CourseServiceImplTest {
+@SpringBootTest
+class CourseServiceImplTest {
 
-    @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("test")
-            .withUsername("postgres")
-            .withPassword("1111");
+    @InjectMocks
+    private CourseServiceImpl courseService;
 
     @Mock
     private CourseDao courseDao;
 
-    private CourseService courseService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(postgresContainer.getJdbcUrl());
-        dataSource.setUsername(postgresContainer.getUsername());
-        dataSource.setPassword(postgresContainer.getPassword());
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        courseService = new CourseServiceImpl(courseDao);
-    }
-
-    @Test
+      @Test
     public void testAddStudentToCourse() {
+        //given
         long studentId = 1L;
         long courseId = 2L;
-
+        //then
         courseService.addStudentToCourse(studentId, courseId);
 
         verify(courseDao).addStudentToCourse(studentId, courseId);
     }
 
     @Test
-    public void testRemoveStudentFromCourse() {
-        long studentId = 1L;
-        long courseId = 2L;
+    public void testAddStudentToCourseThrowingException() {
+        //given
+        long studentId = -1L;
+        long courseId = 100L;
+        //then
+        courseService.addStudentToCourse(studentId, courseId);
+        doThrow(new IllegalArgumentException("")).when(courseDao).addStudentToCourse(anyLong(), anyLong());
 
+        assertThrows(RuntimeException.class, () -> courseService.addStudentToCourse(studentId, courseId));
+    }
+
+    @Test
+    public void testRemoveStudentFromCourse() {
+        //given
+        long studentId = -1L;
+        long courseId = 200L;
+        //then
         courseService.removeStudentFromCourse(studentId, courseId);
 
         verify(courseDao).removeStudentFromCourse(studentId, courseId);
+    }
+
+    @Test
+    public void testRemoveStudentFromCourseThrowingException() {
+        //given
+        long studentId = -1L;
+        long courseId = 100L;
+        //then
+        courseService.addStudentToCourse(studentId, courseId);
+        doThrow(new IllegalArgumentException("")).when(courseDao).removeStudentFromCourse(anyLong(), anyLong());
+
+        assertThrows(RuntimeException.class, () -> courseService.removeStudentFromCourse(studentId, courseId));
     }
 }

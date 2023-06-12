@@ -13,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
-public class CourseDaoImplTest {
+class CourseDaoImplTest {
 
     @Container
     private static final JdbcDatabaseContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")

@@ -2,55 +2,39 @@ package com.example.demo.service;
 
 import com.example.demo.dao.GroupDao;
 import com.example.demo.model.Group;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-@Testcontainers
-public class GroupServiceImplTest {
+@SpringBootTest
+class GroupServiceImplTest {
 
-    @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("test")
-            .withUsername("postgres")
-            .withPassword("1111");
+    @InjectMocks
+    private GroupServiceImpl groupService;
 
     @Mock
     private GroupDao groupDao;
 
-    private GroupService groupService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(postgresContainer.getJdbcUrl());
-        dataSource.setUsername(postgresContainer.getUsername());
-        dataSource.setPassword(postgresContainer.getPassword());
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        groupService = new GroupServiceImpl(groupDao);
-    }
 
     @Test
     public void testFindGroupsWithMaxStudents() {
+        //given
         int maxStudents = 10;
 
         List<Group> expectedGroups = new ArrayList<>();
+
+        //then
         expectedGroups.add(new Group(1L, "XX-01"));
         expectedGroups.add(new Group(2L, "XX-02"));
 
@@ -59,5 +43,22 @@ public class GroupServiceImplTest {
         List<Group> actualGroups = groupService.findGroupsWithMaxStudents(maxStudents);
 
         assertEquals(expectedGroups, actualGroups);
+    }
+
+    @Test
+    public void testFindGroupsWithMaxStudentsThrowingException() {
+        //given
+        int maxStudents = 10;
+
+        List<Group> expectedGroups = new ArrayList<>();
+
+        //then
+        expectedGroups.add(new Group(1L, "XX-01"));
+        expectedGroups.add(new Group(2L, "XX-02"));
+
+
+        doThrow(new IllegalArgumentException("")).when(groupDao).findGroupsWithMaxStudents(anyInt());
+
+        assertThrows(RuntimeException.class, () ->groupService.findGroupsWithMaxStudents(maxStudents));
     }
 }
