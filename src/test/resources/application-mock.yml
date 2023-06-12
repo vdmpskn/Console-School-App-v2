@@ -7,10 +7,3 @@ spring:
     hikari:
       minimum-idle: 1
       maximum-pool-size: 5
-flyway:
-  locations: classpath:db.migration
-  script-encoding: UTF-8
-  placeholder-replacement: true
-  placeholders:
-    placeholder-prefix: #
-      placeholder-suffix: #
