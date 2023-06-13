@@ -31,6 +31,7 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args)  {
-
+    ConsoleMenu consoleMenu = new ConsoleMenu(groupService,studentService,courseService);
+    consoleMenu.start();
     }
 }
