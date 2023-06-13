@@ -1,38 +1,43 @@
 package com.example.demo.front;
 
+import com.example.demo.service.InputService;
 import com.example.demo.model.Group;
 import com.example.demo.model.Student;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.GroupService;
 import com.example.demo.service.StudentService;
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Scanner;
 
+@Component
 public class ConsoleMenu {
     private final GroupService groupService;
     private final StudentService studentService;
     private final CourseService courseService;
+    private final InputService inputService;
 
     private static final Log LOGGER = LogFactory.getLog(ConsoleMenu.class);
-    Scanner scanner = new Scanner(System.in);
 
-    public ConsoleMenu(GroupService groupService, StudentService studentService, CourseService courseService) {
+    public ConsoleMenu(GroupService groupService, StudentService studentService, 
+                       CourseService courseService, InputService inputService) {
         this.groupService = groupService;
         this.studentService = studentService;
         this.courseService = courseService;
+        this.inputService = inputService;
     }
 
+    @PostConstruct
     public void start() {
-
         int choice = 0;
 
         while (choice != 7) {
             displayMenu();
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            choice = inputService.nextInt();
+            inputService.nextLine();
 
             switch (choice) {
                 case 1:
@@ -78,7 +83,7 @@ public class ConsoleMenu {
 
     private void findAllGroupsWithLessOrEqualStudents() {
         LOGGER.info("Write max students of group: ");
-        int maxStudents = scanner.nextInt();
+        int maxStudents = inputService.nextInt();
         try {
             List<Group> groups = groupService.findGroupsWithMaxStudents(maxStudents);
             for(Group group : groups){
@@ -92,7 +97,7 @@ public class ConsoleMenu {
 
     private void findStudentsRelatedToCourse() {
         LOGGER.info("Write course's name: ");
-        String courseName = scanner.nextLine();
+        String courseName = inputService.nextLine();
         try{
             List<Student> students = studentService.findStudentsByCourseName(courseName);
             for (Student student : students){
@@ -106,36 +111,36 @@ public class ConsoleMenu {
 
     private void addNewStudent() {
         LOGGER.info("Write student id: ");
-        long studentId = scanner.nextLong();
+        long studentId = inputService.nextLong();
         LOGGER.info("Write group id: ");
-        long groupId = scanner.nextLong();
+        long groupId = inputService.nextLong();
         LOGGER.info("Write student's name: ");
-        String studentName = scanner.nextLine();
+        String studentName = inputService.nextLine();
         LOGGER.info("Write student's last name: ");
-        String studentLastName = scanner.nextLine();
+        String studentLastName = inputService.nextLine();
         studentService.save(new Student(studentId,groupId,studentName,studentLastName ));
         LOGGER.info("Student added!!");
     }
 
     private void deleteStudent() {
         LOGGER.info("Write student's id");
-        long id = scanner.nextLong();
+        long id = inputService.nextLong();
        studentService.deleteById(id);
     }
 
     private void addStudentToCourse() {
         LOGGER.info("Write student's id: ");
-        long studentId = scanner.nextLong();
+        long studentId = inputService.nextLong();
         LOGGER.info("Write courses id: ");
-        long courseId = scanner.nextLong();
+        long courseId = inputService.nextLong();
         courseService.addStudentToCourse(studentId, courseId);
     }
 
     private void removeStudentFromCourse() {
         LOGGER.info("Write student's id: ");
-        long studentId = scanner.nextLong();
+        long studentId = inputService.nextLong();
         LOGGER.info("Write course's id: ");
-        long courseId = scanner.nextLong();
+        long courseId = inputService.nextLong();
         courseService.removeStudentFromCourse(studentId, courseId);
     }
 }

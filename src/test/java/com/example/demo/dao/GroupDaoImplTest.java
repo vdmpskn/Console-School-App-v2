@@ -46,8 +46,6 @@ class GroupDaoImplTest {
         expectedGroups.add(new Group(12L, "XX-02"));
         expectedGroups.add(new Group(11L, "XX-01"));
 
-        jdbcTemplate.update("INSERT INTO groups (id, group_name) VALUES (?, ?)", 11L, "XX-01");
-        jdbcTemplate.update("INSERT INTO groups (id, group_name) VALUES (?, ?)", 12L, "XX-02");
 
         List<Group> actualGroups = groupDao.findGroupsWithMaxStudents(maxStudents);
 

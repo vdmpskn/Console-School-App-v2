@@ -20,14 +20,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("mock")
-@Sql(
-        scripts = {"classpath:clear_tables.sql",
-                "classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
-                "classpath:db.migration/V2__Create_Courses_Table.sql",
-                "classpath:db.migration/V3__Create_Students_Table.sql"
-        },
-        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
-)
 @SpringBootTest
 class CourseServiceImplTest {
 
@@ -36,17 +28,6 @@ class CourseServiceImplTest {
 
     @Mock
     private CourseDao courseDao;
-
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private DataSource dataSource;
-
-    @BeforeEach
-    public void setUp() {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-        courseService = new CourseServiceImpl(courseDao);
-    }
 
     @Test
     void testAddStudentToCourse() {
