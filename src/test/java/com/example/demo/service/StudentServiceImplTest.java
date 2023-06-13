@@ -7,11 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -19,8 +23,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 @SpringBootTest
+@ActiveProfiles("mock")
+@TestPropertySource(locations = "classpath:application-mock.yml")
+@Sql(
+        scripts = {"classpath:clear_tables.sql",
+                "classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
+                "classpath:db.migration/V2__Create_Courses_Table.sql",
+                "classpath:db.migration/V3__Create_Students_Table.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+)
 class StudentServiceImplTest {
 
     @InjectMocks
@@ -31,24 +44,17 @@ class StudentServiceImplTest {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DataSource dataSource;
+
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-
-        DataSource dataSource = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScripts("classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
-                        "classpath:db.migration/V2__Create_Courses_Table.sql",
-                        "classpath:db.migration/V3__Create_Students_Table.sql")
-                .build();
-
         jdbcTemplate = new JdbcTemplate(dataSource);
         studentService = new StudentServiceImpl(studentDao);
     }
 
     @Test
-    public void testSaveStudent() {
+    void testSaveStudent() {
         //given
         Student student = new Student(1L, 1L, "John", "Doe");
         //when
@@ -63,7 +69,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindAllStudents() {
+    void testFindAllStudents() {
         //given
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(new Student(1L, 1L, "John", "Doe"));
@@ -82,7 +88,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindStudentsByCourseName() {
+    void testFindStudentsByCourseName() {
         //given
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(new Student(1L, 1L, "John", "Doe"));
@@ -102,7 +108,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindStudentById() {
+    void testFindStudentById() {
         //given
         Student expectedStudent = new Student(1L, 1L, "John", "Doe");
         Long studentId = 1L;
@@ -120,7 +126,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testDeleteStudentById() {
+    void testDeleteStudentById() {
         //given
         Long studentId = 1L;
         //when-then
@@ -130,7 +136,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testSaveStudentThrowingException() {
+    void testSaveStudentThrowingException() {
         //given
         Student student = new Student(1L, 1L, "John", "Doe");
         //when
@@ -142,7 +148,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindAllStudentsThrowingException() {
+    void testFindAllStudentsThrowingException() {
 
         doThrow(new IllegalArgumentException("")).when(studentDao).findAll();
 
@@ -150,7 +156,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindStudentsByCourseNameThrowingException() {
+    void testFindStudentsByCourseNameThrowingException() {
         //given
         String courseName = "Math";
         //then
@@ -160,7 +166,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testFindStudentByIdThrowingException() {
+    void testFindStudentByIdThrowingException() {
         //given
         Long studentId = 1L;
         //then
@@ -170,7 +176,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    public void testDeleteStudentByIdThrowingException() {
+    void testDeleteStudentByIdThrowingException() {
         //given
         Long studentId = 1L;
         //then

@@ -1,17 +1,16 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Student;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,48 +18,32 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@Testcontainers
-public class StudentDaoImplTest {
+@SpringBootTest
+@ActiveProfiles("test-containers")
+@TestPropertySource(locations = "classpath:application-test-containers.yml")
+@Sql(
+        scripts = {"classpath:clear_tables.sql",
+                "classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
+                "classpath:db.migration/V2__Create_Courses_Table.sql",
+                "classpath:db.migration/V3__Create_Students_Table.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+)
+class StudentDaoImplTest {
 
-    @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("test")
-            .withUsername("postgres")
-            .withPassword("1111");
-
-    @Mock
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private StudentDaoImpl studentDao;
 
-    private void migrateDatabase() {
-        Flyway flyway = Flyway.configure()
-                .dataSource(postgresContainer.getJdbcUrl(), postgresContainer.getUsername(), postgresContainer.getPassword())
-                .locations("classpath:db.migration")
-                .load();
-        flyway.migrate();
-    }
-
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        MockitoAnnotations.initMocks(this);
-        postgresContainer.start();
-        migrateDatabase();
-
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(postgresContainer.getDriverClassName());
-        dataSource.setUrl(postgresContainer.getJdbcUrl());
-        dataSource.setUsername(postgresContainer.getUsername());
-        dataSource.setPassword(postgresContainer.getPassword());
-
-        jdbcTemplate = new JdbcTemplate(dataSource);
         studentDao = new StudentDaoImpl(jdbcTemplate);
     }
 
     @Test
-    public void save_shouldReturnSavedStudent() {
-        Student student = new Student(1L, 1L, "John", "Doe");
+    void save_shouldReturnSavedStudent() {
+        Student student = new Student(100L, 1L, "John", "Doe");
 
         Student savedStudent = studentDao.save(student);
 
@@ -68,7 +51,7 @@ public class StudentDaoImplTest {
     }
 
     @Test
-    public void findAll_shouldReturnListOfStudents() {
+    void findAll_shouldReturnListOfStudents() {
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(new Student(1L, 1L, "John", "Doe"));
         expectedStudents.add(new Student(2L, 1L, "Jane", "Smith"));
@@ -91,7 +74,7 @@ public class StudentDaoImplTest {
     }
 
     @Test
-    public void findById_shouldReturnStudentWithGivenId() {
+    void findById_shouldReturnStudentWithGivenId() {
         Long studentId = 1L;
         Student expectedStudent = new Student(studentId, 1L, "John", "Doe");
 
@@ -101,7 +84,7 @@ public class StudentDaoImplTest {
     }
 
     @Test
-    public void deleteById_shouldDeleteStudentWithGivenId() {
+    void deleteById_shouldDeleteStudentWithGivenId() {
         Long studentId = 1L;
 
         JdbcTemplate jdbcTemplateMock = Mockito.mock(JdbcTemplate.class);
@@ -113,7 +96,7 @@ public class StudentDaoImplTest {
     }
 
     @Test
-    public void findStudentsByCourseName_shouldReturnListOfStudents() {
+    void findStudentsByCourseName_shouldReturnListOfStudents() {
         String courseName = "Math";
         List<Student> expectedStudents = new ArrayList<>();
         expectedStudents.add(new Student(1L, 1L, "John", "Doe"));

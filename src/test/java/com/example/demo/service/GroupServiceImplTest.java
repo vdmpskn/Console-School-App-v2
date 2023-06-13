@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -24,6 +26,15 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles("mock")
+@Sql(
+        scripts = {"classpath:clear_tables.sql",
+                "classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
+                "classpath:db.migration/V2__Create_Courses_Table.sql",
+                "classpath:db.migration/V3__Create_Students_Table.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+)
 class GroupServiceImplTest {
 
     @InjectMocks
@@ -34,24 +45,17 @@ class GroupServiceImplTest {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DataSource dataSource;
+
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        DataSource dataSource = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScripts("classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
-                        "classpath:db.migration/V2__Create_Courses_Table.sql",
-                        "classpath:db.migration/V3__Create_Students_Table.sql")
-                .build();
-
         jdbcTemplate = new JdbcTemplate(dataSource);
         groupService = new GroupServiceImpl(groupDao);
     }
 
-
     @Test
-    public void testFindGroupsWithMaxStudents() {
+    void testFindGroupsWithMaxStudents() {
         //given
         int maxStudents = 10;
 
@@ -69,7 +73,7 @@ class GroupServiceImplTest {
     }
 
     @Test
-    public void testFindGroupsWithMaxStudentsThrowingException() {
+    void testFindGroupsWithMaxStudentsThrowingException() {
         //given
         int maxStudents = 10;
 

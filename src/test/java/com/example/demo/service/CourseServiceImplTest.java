@@ -7,10 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 
@@ -19,6 +22,15 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
+@ActiveProfiles("mock")
+@Sql(
+        scripts = {"classpath:clear_tables.sql",
+                "classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
+                "classpath:db.migration/V2__Create_Courses_Table.sql",
+                "classpath:db.migration/V3__Create_Students_Table.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+)
 @SpringBootTest
 class CourseServiceImplTest {
 
@@ -30,23 +42,17 @@ class CourseServiceImplTest {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DataSource dataSource;
+
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        DataSource dataSource = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScripts("classpath:db.migration/V1__Create_Random_Group_Name_Function.sql",
-                        "classpath:db.migration/V2__Create_Courses_Table.sql",
-                        "classpath:db.migration/V3__Create_Students_Table.sql")
-                .build();
-
         jdbcTemplate = new JdbcTemplate(dataSource);
         courseService = new CourseServiceImpl(courseDao);
     }
 
-      @Test
-    public void testAddStudentToCourse() {
+    @Test
+    void testAddStudentToCourse() {
         //given
         long studentId = 1L;
         long courseId = 2L;
@@ -57,7 +63,7 @@ class CourseServiceImplTest {
     }
 
     @Test
-    public void testAddStudentToCourseThrowingException() {
+    void testAddStudentToCourseThrowingException() {
         //given
         long studentId = -1L;
         long courseId = 100L;
@@ -69,7 +75,7 @@ class CourseServiceImplTest {
     }
 
     @Test
-    public void testRemoveStudentFromCourse() {
+    void testRemoveStudentFromCourse() {
         //given
         long studentId = -1L;
         long courseId = 200L;
@@ -80,7 +86,7 @@ class CourseServiceImplTest {
     }
 
     @Test
-    public void testRemoveStudentFromCourseThrowingException() {
+    void testRemoveStudentFromCourseThrowingException() {
         //given
         long studentId = -1L;
         long courseId = 100L;
