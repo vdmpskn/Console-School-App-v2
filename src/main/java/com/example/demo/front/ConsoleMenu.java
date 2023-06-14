@@ -1,12 +1,8 @@
 package com.example.demo.front;
 
-import com.example.demo.service.InputService;
+import com.example.demo.service.*;
 import com.example.demo.model.Group;
 import com.example.demo.model.Student;
-import com.example.demo.service.CourseService;
-import com.example.demo.service.GroupService;
-import com.example.demo.service.StudentService;
-import jakarta.annotation.PostConstruct;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -22,48 +18,33 @@ public class ConsoleMenu {
 
     private static final Log LOGGER = LogFactory.getLog(ConsoleMenu.class);
 
-    public ConsoleMenu(GroupService groupService, StudentService studentService, 
+    public ConsoleMenu(GroupService groupService, StudentService studentService,
                        CourseService courseService, InputService inputService) {
         this.groupService = groupService;
         this.studentService = studentService;
         this.courseService = courseService;
         this.inputService = inputService;
+
     }
 
-    @PostConstruct
     public void start() {
         int choice = 0;
 
-        while (choice != 7) {
+        while (choice != 8) {
             displayMenu();
             choice = inputService.nextInt();
             inputService.nextLine();
 
             switch (choice) {
-                case 1:
-                    findAllGroupsWithLessOrEqualStudents();
-                    break;
-                case 2:
-                    findStudentsRelatedToCourse();
-                    break;
-                case 3:
-                    addNewStudent();
-                    break;
-                case 4:
-                    deleteStudent();
-                    break;
-                case 5:
-                    addStudentToCourse();
-                    break;
-                case 6:
-                    removeStudentFromCourse();
-                    break;
-                case 7:
-                    LOGGER.info("Exiting the program. Goodbye!");
-                    break;
-                default:
-                    LOGGER.info("Invalid choice. Please try again.");
-                    break;
+                case 1 -> findAllGroupsWithLessOrEqualStudents();
+                case 2 -> findStudentsRelatedToCourse();
+                case 3 -> addNewStudent();
+                case 4 -> deleteStudent();
+                case 5 -> addStudentToCourse();
+                case 6 -> removeStudentFromCourse();
+                case 7 -> findAll();
+                case 8 -> LOGGER.info("Exiting the program. Goodbye!");
+                default -> LOGGER.info("Invalid choice. Please try again.");
             }
         }
     }
@@ -76,7 +57,8 @@ public class ConsoleMenu {
         LOGGER.info("4. Delete a student by STUDENT_ID");
         LOGGER.info("5. Add a student to a course");
         LOGGER.info("6. Remove a student from one of their courses");
-        LOGGER.info("7. Exit");
+        LOGGER.info("7. Find all students");
+        LOGGER.info("8. Exit");
         LOGGER.info("----------------------------------");
         LOGGER.info("Enter your choice: ");
     }
@@ -169,6 +151,19 @@ public class ConsoleMenu {
             courseService.removeStudentFromCourse(studentId, courseId);
         } catch (RuntimeException ex){
             String msg = "Failed  to remove students from course";
+            LOGGER.error(msg, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    public void findAll(){
+        try{
+            List<Student> students = studentService.findAll();
+            for (Student student : students){
+                LOGGER.info(student);
+            }
+        } catch (RuntimeException ex){
+            String msg = "List of Student:";
             LOGGER.error(msg, ex);
             ex.printStackTrace();
         }

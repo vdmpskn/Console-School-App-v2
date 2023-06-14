@@ -55,7 +55,7 @@ class ConsoleMenuTest {
                 .thenReturn(6)//sixth method
                 .thenReturn(20)//params
                 .thenReturn(21)//params
-                .thenReturn(7)//exit
+                .thenReturn(8)//exit
         ;
 
 

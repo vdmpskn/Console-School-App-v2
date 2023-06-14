@@ -1,8 +1,10 @@
 package com.example.demo.config;
 
 import com.example.demo.front.ConsoleMenu;
+import com.example.demo.service.DatabaseService;
 import com.example.demo.service.InputService;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -23,4 +25,5 @@ public class TestSpringBeanConfig {
     public ConsoleMenu consoleMenu() {
         return Mockito.mock(ConsoleMenu.class);
     }
+
 }
