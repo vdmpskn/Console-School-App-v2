@@ -1,7 +1,7 @@
 package com.example.demo.generator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Random;
 @Service
 public class GroupDataGeneratorService {
     public static final int NUM_GROUPS = 10;
-    private static final Log log = LogFactory.getLog(GroupDataGeneratorService.class);
+    private static final Logger LOGGER  = LogManager.getLogger(GroupDataGeneratorService.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -25,7 +25,7 @@ public class GroupDataGeneratorService {
         try {
             generateRandom();
         } catch (SQLException e) {
-            log.error("Failed to generate and insert groups: " + e.getMessage());
+            LOGGER.error("Failed to generate and insert groups: " + e.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class GroupDataGeneratorService {
             jdbcTemplate.update(sql, groupName);
         }
 
-        log.info("Group data inserted successfully");
+        LOGGER.info("Group data inserted successfully");
     }
 
     public List<String> generateRandomGroupNames(int numGroups) {

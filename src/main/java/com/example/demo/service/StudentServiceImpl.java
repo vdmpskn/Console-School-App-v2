@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dao.StudentDao;
 import com.example.demo.model.Student;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentDao studentDao;
 
-    private static final Log LOGGER = LogFactory.getLog(StudentServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentServiceImpl.class);
 
     public StudentServiceImpl(StudentDao studentDao) {
         this.studentDao = studentDao;

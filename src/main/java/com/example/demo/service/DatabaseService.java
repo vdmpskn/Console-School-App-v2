@@ -4,14 +4,14 @@ import com.example.demo.assigner.StudentsToCourseAssigner;
 import com.example.demo.generator.CourseDataGeneratorService;
 import com.example.demo.generator.GroupDataGeneratorService;
 import com.example.demo.generator.StudentDataGenerator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseService {
-    private final Log LOGGER = LogFactory.getLog(DatabaseService.class);
+    private final Logger LOGGER = LogManager.getLogger(DatabaseService.class);
 
     private final CourseDataGeneratorService courseDataGeneratorService;
     private final GroupDataGeneratorService groupDataGeneratorService;
