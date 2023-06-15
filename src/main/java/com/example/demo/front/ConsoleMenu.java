@@ -3,8 +3,9 @@ package com.example.demo.front;
 import com.example.demo.service.*;
 import com.example.demo.model.Group;
 import com.example.demo.model.Student;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class ConsoleMenu {
     private final CourseService courseService;
     private final InputService inputService;
 
-    private static final Log LOGGER = LogFactory.getLog(ConsoleMenu.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConsoleMenu.class);
 
     public ConsoleMenu(GroupService groupService, StudentService studentService,
                        CourseService courseService, InputService inputService) {
@@ -43,8 +44,8 @@ public class ConsoleMenu {
                 case 5 -> addStudentToCourse();
                 case 6 -> removeStudentFromCourse();
                 case 7 -> findAll();
-                case 8 -> LOGGER.info("Exiting the program. Goodbye!");
-                default -> LOGGER.info("Invalid choice. Please try again.");
+                case 8 -> LOGGER.warn("Exiting the program. Goodbye!");
+                default -> LOGGER.trace("Invalid choice. Please try again.");
             }
         }
     }

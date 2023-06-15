@@ -1,0 +1,53 @@
+2023-06-15 09:15:51.691 [main] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 20.0.1 with PID 22229 (/Users/vadympskn/demos/target/classes started by vadympskn in /Users/vadympskn/demos)
+2023-06-15 09:15:51.702 [main] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2023-06-15 09:15:52.564 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-15 09:15:52.587 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 JPA repository interfaces.
+2023-06-15 09:15:53.061 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-06-15 09:15:53.073 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-06-15 09:15:53.074 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-06-15 09:15:53.075 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-06-15 09:15:53.146 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-06-15 09:15:53.147 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1405 ms
+2023-06-15 09:15:53.415 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter - Flyway Community Edition 9.19.1 by Redgate
+2023-06-15 09:15:53.415 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2023-06-15 09:15:53.415 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter - 
+2023-06-15 09:15:53.430 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-06-15 09:15:53.588 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6b3d9c38
+2023-06-15 09:15:53.589 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-06-15 09:15:53.605 [main] INFO  org.flywaydb.core.internal.database.base.BaseDatabaseType - Database: jdbc:postgresql://localhost:5432/test (PostgreSQL 15.3)
+2023-06-15 09:15:53.661 [main] INFO  org.flywaydb.core.internal.command.DbValidate - Successfully validated 3 migrations (execution time 00:00.035s)
+2023-06-15 09:15:53.695 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Current version of schema "public": 3
+2023-06-15 09:15:53.696 [main] INFO  org.flywaydb.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2023-06-15 09:15:53.789 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-15 09:15:53.853 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.2.Final
+2023-06-15 09:15:53.855 [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2023-06-15 09:15:54.013 [main] INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-06-15 09:15:54.194 [main] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-06-15 09:15:54.270 [main] INFO  org.hibernate.orm.dialect - HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@6eb00cbe
+2023-06-15 09:15:54.380 [main] INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2023-06-15 09:15:54.639 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-15 09:15:54.645 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-15 09:15:54.739 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-15 09:15:55.235 [main] INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-06-15 09:15:55.290 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-06-15 09:15:55.302 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-06-15 09:15:55.315 [main] INFO  com.example.demo.DemoApplication - Started DemoApplication in 4.006 seconds (process running for 5.574)
+2023-06-15 09:15:55.328 [main] INFO  com.example.demo.service.DatabaseService - Database is not empty. Skip data generation!
+2023-06-15 09:15:55.328 [main] INFO  com.example.demo.front.ConsoleMenu - ---------- Console Menu ----------
+2023-06-15 09:15:55.328 [main] INFO  com.example.demo.front.ConsoleMenu - 1. Find all groups with less or equal students' number
+2023-06-15 09:15:55.328 [main] INFO  com.example.demo.front.ConsoleMenu - 2. Find all students related to a course
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 3. Add a new student
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 4. Delete a student by STUDENT_ID
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 5. Add a student to a course
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 6. Remove a student from one of their courses
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 7. Find all students
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - 8. Exit
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - ----------------------------------
+2023-06-15 09:15:55.329 [main] INFO  com.example.demo.front.ConsoleMenu - Enter your choice: 
+2023-06-15 09:16:10.350 [main] WARN  com.example.demo.front.ConsoleMenu - Exiting the program. Goodbye!
+2023-06-15 09:16:10.890 [RMI TCP Connection(3)-192.168.31.109] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-15 09:16:10.891 [RMI TCP Connection(3)-192.168.31.109] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-06-15 09:16:10.893 [RMI TCP Connection(3)-192.168.31.109] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-06-15 09:16:12.970 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-15 09:16:12.972 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-06-15 09:16:12.975 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

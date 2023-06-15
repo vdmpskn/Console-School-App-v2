@@ -10,3 +10,5 @@ spring:
     placeholders:
       placeholder-prefix: #
         placeholder-suffix: #
+logging:
+  config: classpath:log4j2.xml

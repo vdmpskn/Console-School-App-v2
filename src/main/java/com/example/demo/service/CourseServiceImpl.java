@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.CourseDao;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CourseServiceImpl implements CourseService{
 
     private final CourseDao courseDao;
-    private static final Log LOGGER = LogFactory.getLog(CourseServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(CourseServiceImpl.class);
 
     public CourseServiceImpl(CourseDao courseDao) {
         this.courseDao = courseDao;

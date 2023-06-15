@@ -1,7 +1,7 @@
 package com.example.demo.assigner;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Component
 public class StudentsToCourseAssigner {
-    private static final Log log = LogFactory.getLog(StudentsToCourseAssigner.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentsToCourseAssigner.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -56,9 +56,9 @@ public class StudentsToCourseAssigner {
                 }
             });
 
-            log.info("Courses assigned to students successfully.");
+            LOGGER.info("Courses assigned to students successfully.");
         } catch (Exception e){
-            log.error("Failed to assign courses to students: " + e.getMessage());
+            LOGGER.error("Failed to assign courses to students: " + e.getMessage());
             e.printStackTrace();
         }
     }

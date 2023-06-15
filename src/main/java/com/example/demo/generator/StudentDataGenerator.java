@@ -1,13 +1,12 @@
 package com.example.demo.generator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Random;
 @Repository
 public class StudentDataGenerator {
 
-    private static final Log log = LogFactory.getLog(StudentDataGenerator.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentDataGenerator.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,7 +36,7 @@ public class StudentDataGenerator {
             List<Integer> groupIds = getGroupIds();
 
             if (groupIds.isEmpty()) {
-                log.fatal("No group IDs available. Insert group records into the 'groups' table.");
+                LOGGER.fatal("No group IDs available. Insert group records into the 'groups' table.");
                 throw new IllegalStateException();
             }
 
@@ -66,9 +65,9 @@ public class StudentDataGenerator {
                 }
             });
 
-            log.info("Students generated successfully.");
+            LOGGER.info("Students generated successfully.");
         } catch (Exception e) {
-            log.error("Failed to generate students: " + e.getMessage());
+            LOGGER.error("Failed to generate students: " + e.getMessage());
         }
     }
 
@@ -78,14 +77,14 @@ public class StudentDataGenerator {
         try {
             return jdbcTemplate.queryForList(sql, Integer.class);
         } catch (Exception e) {
-            log.error("Failed to retrieve group IDs: " + e.getMessage());
+            LOGGER.error("Failed to retrieve group IDs: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
     public int getRandomGroupId(List<Integer> groupIds, Random random) {
         if (groupIds.isEmpty()) {
-            log.fatal("No group IDs available");
+            LOGGER.fatal("No group IDs available");
             throw new IllegalStateException();
         }
         int randomIndex = random.nextInt(groupIds.size());

@@ -1,13 +1,12 @@
 package com.example.demo.generator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @Repository
 public class CourseDataGeneratorService {
 
-    private static final Log log = LogFactory.getLog(CourseDataGeneratorService.class);
+    private static final Logger LOGGER = LogManager.getLogger(CourseDataGeneratorService.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,7 +26,7 @@ public class CourseDataGeneratorService {
         try {
             addCourses();
         } catch (SQLException e) {
-            log.error("Failed to create courses: " + e.getMessage());
+            LOGGER.error("Failed to create courses: " + e.getMessage());
         }
     }
 
@@ -63,9 +62,9 @@ public class CourseDataGeneratorService {
                 }
             });
 
-            log.info("Courses created successfully.");
+            LOGGER.info("Courses created successfully.");
         } catch (Exception e) {
-            log.error("Failed to add courses: " + e.getMessage());
+            LOGGER.error("Failed to add courses: " + e.getMessage());
         }
     }
 
